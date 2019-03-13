@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/690788010/webpack-demo#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^2.0.0",
     "css-loader": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
