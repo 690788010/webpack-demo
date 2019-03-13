@@ -5,7 +5,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: {
-        main: './src/index.js'
+        main: './src/index.js',
+        sub: './src/index.js'
     },
     module: {
         rules: [{
@@ -48,10 +49,11 @@ module.exports = {
             template: 'src/index.html'
         }),
         // 在打包之前，删除dist目录下的所有内容
-        new CleanWebpackPlugin(['dist'])
+        // new CleanWebpackPlugin(['dist'])
     ],
     output: {
-        filename: 'dist.js',
+        publicPath: 'http://cdn.com.cn',    // 为html中的引入的js地址前面增加地址
+        filename: '[name].js',  // name是通配符，表示entry中的key值
         path: path.resolve(__dirname, 'dist')
     }
 }
