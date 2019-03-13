@@ -1,4 +1,4 @@
-// import './index.scss';
+import './index.scss';
 
 var root = document.getElementById('root');
 root.innerHTML = '<div class="test">abc</div>';
