@@ -3,10 +3,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: 'development',   
+    // mode为development的情况下，会默认打开SourceMap
+    // 使用inline-source-map会将main.js.map文件转化为Base64的格式放在main.js文件的底部
+    // devtool: 'inline-source-map',       
+    // devtool: 'cheap-inline-source-map', // 加上'cheap'则不提示哪一列出现错误，且只负责业务代码的错误
+    // devtool: 'eval',    // 在main.js中使用eval()方法来实现sourcemap的对应关系
+    devtool: 'cheap-module-eval-source-map', //development环境下最佳实践
     entry: {
-        main: './src/index.js',
-        sub: './src/index.js'
+        main: './src/index.js'
     },
     module: {
         rules: [{
@@ -52,7 +57,6 @@ module.exports = {
         new CleanWebpackPlugin()
     ],
     output: {
-        publicPath: 'http://cdn.com.cn',    // 为html中的引入的js地址前面增加地址
         filename: '[name].js',  // name是通配符，表示entry中的key值
         path: path.resolve(__dirname, 'dist')
     }
