@@ -49,7 +49,7 @@ module.exports = {
             template: 'src/index.html'
         }),
         // 在打包之前，删除dist目录下的所有内容
-        // new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin()
     ],
     output: {
         publicPath: 'http://cdn.com.cn',    // 为html中的引入的js地址前面增加地址
