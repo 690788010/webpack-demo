@@ -13,6 +13,15 @@ module.exports = {
     entry: {
         main: './src/index.js'
     },
+    // webpack-dev-server是一个简单的web服务器，并且能够实时重新加载
+    devServer: {
+        contentBase: './dist',   // 服务器根路径
+        open: true,              // 自动打开浏览器并进入对应页面
+        proxy: {                 // 跨域代理
+            "/api": "http://localhost:3000"
+        },
+        port: 8080,              // devServer默认端口
+    },
     module: {
         rules: [{
             test: /\.(jpg|png|gif)$/,
@@ -57,6 +66,7 @@ module.exports = {
         new CleanWebpackPlugin()
     ],
     output: {
+        publicPath: '/',       
         filename: '[name].js',  // name是通配符，表示entry中的key值
         path: path.resolve(__dirname, 'dist')
     }
