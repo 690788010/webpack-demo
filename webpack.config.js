@@ -5,10 +5,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     mode: 'development',   
     // mode为development的情况下，会默认打开SourceMap
-    // 使用inline-source-map会将main.js.map文件转化为Base64的格式放在main.js文件的底部
-    // devtool: 'inline-source-map',       
+    // 使用source-map会生成main.js.map文件来构成映射
+    // 使用inline-source-map会将main.js.map文件转化为Base64的格式放在main.js文件的底部   
     // devtool: 'cheap-inline-source-map', // 加上'cheap'则不提示哪一列出现错误，且只负责业务代码的错误
-    // devtool: 'eval',    // 在main.js中使用eval()方法来实现sourcemap的对应关系
+    // devtool: 'cheap-module-inline-source-map',  // 再加上'module'则负责业务代码的错误
+    // devtool: 'eval',    // 在main.js中使用eval()方法来实现sourcemap的对应关系，相比其他，打包速度最快
     devtool: 'cheap-module-eval-source-map', //development环境下最佳实践
     entry: {
         main: './src/index.js'
