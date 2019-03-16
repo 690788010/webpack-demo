@@ -14,6 +14,10 @@ module.exports = {
     entry: {
         main: './src/index.js'
     },
+    devServer: {
+        contentBase: './dist',
+        port: 8080
+    },
     module: {
         rules: [{
             test: /\.(jpg|png|gif)$/,
@@ -58,6 +62,7 @@ module.exports = {
         new CleanWebpackPlugin()
     ],
     output: {
+        publicPath: '/',
         filename: '[name].js',  // name是通配符，表示entry中的key值
         path: path.resolve(__dirname, 'dist')
     }
