@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',   
@@ -17,11 +18,13 @@ module.exports = {
     // webpack-dev-server是一个简单的web服务器，并且能够实时重新加载
     devServer: {
         contentBase: './dist',   // 服务器根路径
-        open: true,              // 自动打开浏览器并进入对应页面
+        // open: true,              // 自动打开浏览器并进入对应页面
         proxy: {                 // 跨域代理
             "/api": "http://localhost:3000"
         },
         port: 8080,              // devServer默认端口
+        hot: true,               // 开启模块热替换
+        hotOnly: true            // 如果模块热替换功能没有生效，页面不刷新
     },
     module: {
         rules: [{
@@ -64,7 +67,9 @@ module.exports = {
             template: 'src/index.html'
         }),
         // 在打包之前，删除dist目录下的所有内容
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        // 初始化模块热替换插件
+        new webpack.HotModuleReplacementPlugin()    
     ],
     output: {
         publicPath: '/',       
