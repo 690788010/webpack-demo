@@ -20,7 +20,11 @@
   },
   "homepage": "https://github.com/690788010/webpack-demo#readme",
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "autoprefixer": "^9.4.10",
+    "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.0",
     "css-loader": "^2.1.1",
     "express": "^4.16.4",
@@ -35,5 +39,9 @@
     "webpack-dev-middleware": "^3.6.1",
     "webpack-dev-server": "^3.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "@babel/runtime": "^7.3.4",
+    "@babel/runtime-corejs2": "^7.3.4"
+  }
 }

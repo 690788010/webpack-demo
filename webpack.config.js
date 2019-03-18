@@ -58,6 +58,37 @@ module.exports = {
                 // postcss-loader增加厂商前缀
                 'postcss-loader'
             ]
+        },{
+            test: /\.js$/, 
+            // 没必要对第三方库做转换，因为它们早已经做好了转换
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+            options: {
+                // presets: [
+                //     [
+                //         "@babel/preset-env",     // 转换工具
+                //         {
+                //             targets: {
+                //                 chrome: "67",    // 转换针对的浏览器
+                //             },
+                //             useBuiltIns: 'usage'  // 根据业务代码来补充代码
+                //         }
+                //     ]   
+                // ]  
+                // presets polyfill 会产生全局污染，而transform不会
+                "plugins": [
+                    [
+                            "@babel/plugin-transform-runtime"
+                        ,{
+                            "absoluteRuntime": false,
+                            "corejs": 2,
+                            "helpers": true,
+                            "regenerator": true,
+                            "useESModules": false
+                        }
+                    ]
+                ]
+            }
         }]
     },
     plugins: [
