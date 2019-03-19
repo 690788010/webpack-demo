@@ -4,14 +4,15 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-    mode: 'development',   
+    mode: 'production',   
     // mode为development的情况下，会默认打开SourceMap
     // 使用source-map会生成main.js.map文件来构成映射
     // 使用inline-source-map会将main.js.map文件转化为Base64的格式放在main.js文件的底部   
     // devtool: 'cheap-inline-source-map', // 加上'cheap'则不提示哪一列出现错误，且只负责业务代码的错误
     // devtool: 'cheap-module-inline-source-map',  // 再加上'module'则负责业务代码的错误
     // devtool: 'eval',    // 在main.js中使用eval()方法来实现sourcemap的对应关系，相比其他，打包速度最快
-    devtool: 'cheap-module-eval-source-map', //development环境下最佳实践
+    // devtool: 'cheap-module-eval-source-map', //development环境下最佳实践
+    devtool: 'cheap-module-source-map', //生产环境下最佳实践
     entry: {
         main: './src/index.js'
     },
@@ -63,32 +64,33 @@ module.exports = {
             // 没必要对第三方库做转换，因为它们早已经做好了转换
             exclude: /node_modules/,
             loader: 'babel-loader',
-            options: {
-                // presets: [
-                //     [
-                //         "@babel/preset-env",     // 转换工具
-                //         {
-                //             targets: {
-                //                 chrome: "67",    // 转换针对的浏览器
-                //             },
-                //             useBuiltIns: 'usage'  // 根据业务代码来补充代码
-                //         }
-                //     ]   
-                // ]  
-                // presets polyfill 会产生全局污染，而transform不会
-                "plugins": [
-                    [
-                            "@babel/plugin-transform-runtime"
-                        ,{
-                            "absoluteRuntime": false,
-                            "corejs": 2,
-                            "helpers": true,
-                            "regenerator": true,
-                            "useESModules": false
-                        }
-                    ]
-                ]
-            }
+            // 以下的options选项可以写在根目录下的.babelrc文件中
+            // options: {
+            //     // presets: [
+            //     //     [
+            //     //         "@babel/preset-env",     // 转换工具
+            //     //         {
+            //     //             targets: {
+            //     //                 chrome: "67",    // 转换针对的浏览器
+            //     //             },
+            //     //             useBuiltIns: 'usage'  // 根据业务代码来补充代码
+            //     //         }
+            //     //     ]   
+            //     // ]  
+            //     // presets polyfill 会产生全局污染，而transform不会
+            //     "plugins": [
+            //         [
+            //                 "@babel/plugin-transform-runtime"
+            //             ,{
+            //                 "absoluteRuntime": false,
+            //                 "corejs": 2,        // 这里要设置为2
+            //                 "helpers": true,
+            //                 "regenerator": true,
+            //                 "useESModules": false
+            //             }
+            //         ]
+            //     ]
+            // }
         }]
     },
     plugins: [
@@ -102,8 +104,12 @@ module.exports = {
         // 初始化模块热替换插件
         new webpack.HotModuleReplacementPlugin()    
     ],
+    // production模式下不需要写Tree Shaking配置
+    // optimization: {
+    //     usedExports: true
+    // },
     output: {
-        publicPath: '/',       
+        // publicPath: '/',       
         filename: '[name].js',  // name是通配符，表示entry中的key值
         path: path.resolve(__dirname, 'dist')
     }

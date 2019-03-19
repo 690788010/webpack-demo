@@ -1,5 +1,6 @@
 {
   "name": "webpack-demo",
+  "sideEffects": false,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -42,6 +43,8 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "@babel/runtime": "^7.3.4",
-    "@babel/runtime-corejs2": "^7.3.4"
+    "@babel/runtime-corejs2": "^7.3.4",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   }
 }
