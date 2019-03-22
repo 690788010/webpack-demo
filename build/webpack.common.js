@@ -4,7 +4,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        lodash: './src/lodash.js',
         main: './src/index.js'
     },
     module: {
@@ -57,6 +56,12 @@ module.exports = {
         // 初始化模块热替换插件
         // new webpack.HotModuleReplacementPlugin()    
     ],
+    // 代码分割
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
+    },
     output: {
         // publicPath: '/',       
         filename: '[name].js',  // name是通配符，表示entry中的key值
