@@ -3,7 +3,7 @@
 /******/ 	function webpackJsonpCallback(data) {
 /******/ 		var chunkIds = data[0];
 /******/ 		var moreModules = data[1];
-/******/ 		var executeModules = data[2];
+/******/
 /******/
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
@@ -26,28 +26,8 @@
 /******/ 			resolves.shift()();
 /******/ 		}
 /******/
-/******/ 		// add entry modules from loaded chunk to deferred list
-/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
-/******/
-/******/ 		// run deferred modules when all chunks ready
-/******/ 		return checkDeferredModules();
 /******/ 	};
-/******/ 	function checkDeferredModules() {
-/******/ 		var result;
-/******/ 		for(var i = 0; i < deferredModules.length; i++) {
-/******/ 			var deferredModule = deferredModules[i];
-/******/ 			var fulfilled = true;
-/******/ 			for(var j = 1; j < deferredModule.length; j++) {
-/******/ 				var depId = deferredModule[j];
-/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
-/******/ 			}
-/******/ 			if(fulfilled) {
-/******/ 				deferredModules.splice(i--, 1);
-/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-/******/ 			}
-/******/ 		}
-/******/ 		return result;
-/******/ 	}
+/******/
 /******/ 	function hotDisposeChunk(chunkId) {
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
@@ -112,7 +92,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "fa3a98632c403272f26a";
+/******/ 	var hotCurrentHash = "58a0c20549638c0952c7";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -759,7 +739,12 @@
 /******/ 		"main": 0
 /******/ 	};
 /******/
-/******/ 	var deferredModules = [];
+/******/
+/******/
+/******/ 	// script path function
+/******/ 	function jsonpScriptSrc(chunkId) {
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -788,6 +773,64 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// JSONP chunk loading for javascript
+/******/
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
+/******/
+/******/ 			// a Promise means "currently loading".
+/******/ 			if(installedChunkData) {
+/******/ 				promises.push(installedChunkData[2]);
+/******/ 			} else {
+/******/ 				// setup Promise in chunk cache
+/******/ 				var promise = new Promise(function(resolve, reject) {
+/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 				});
+/******/ 				promises.push(installedChunkData[2] = promise);
+/******/
+/******/ 				// start chunk loading
+/******/ 				var script = document.createElement('script');
+/******/ 				var onScriptComplete;
+/******/
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.src = jsonpScriptSrc(chunkId);
+/******/
+/******/ 				onScriptComplete = function (event) {
+/******/ 					// avoid mem leaks in IE.
+/******/ 					script.onerror = script.onload = null;
+/******/ 					clearTimeout(timeout);
+/******/ 					var chunk = installedChunks[chunkId];
+/******/ 					if(chunk !== 0) {
+/******/ 						if(chunk) {
+/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 							var realSrc = event && event.target && event.target.src;
+/******/ 							var error = new Error('Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')');
+/******/ 							error.type = errorType;
+/******/ 							error.request = realSrc;
+/******/ 							chunk[1](error);
+/******/ 						}
+/******/ 						installedChunks[chunkId] = undefined;
+/******/ 					}
+/******/ 				};
+/******/ 				var timeout = setTimeout(function(){
+/******/ 					onScriptComplete({ type: 'timeout', target: script });
+/******/ 				}, 120000);
+/******/ 				script.onerror = script.onload = onScriptComplete;
+/******/ 				document.head.appendChild(script);
+/******/ 			}
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -841,6 +884,9 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
 /******/ 	// __webpack_hash__
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
@@ -852,10 +898,8 @@
 /******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
 /******/
-/******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./src/index.js","vendors~main"]);
-/******/ 	// run deferred modules when ready
-/******/ 	return checkDeferredModules();
+/******/ 	// Load entry module and return exports
+/******/ 	return hotCreateRequire("./src/index.js")(__webpack_require__.s = "./src/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -864,12 +908,11 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no exports provided */
+/*! no static exports found */
 /*! all exports used */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\nconsole.log(lodash__WEBPACK_IMPORTED_MODULE_0___default.a.join(['a', 'b', 'c'], \"***\"));//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgXyBmcm9tICdsb2Rhc2gnO1xyXG5cclxuY29uc29sZS5sb2coXy5qb2luKFsnYScsICdiJywgJ2MnXSwgXCIqKipcIikpO1xyXG5cclxuIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUFBO0FBQUE7QUFBQTtBQUVBIiwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/index.js\n");
+eval("function getComponent() {\n  // webpack的方法，异步加载模块\n  // lodash被加载并声明为'_'\n  return new Promise(resolve => {\n    __webpack_require__.e(/*! require.ensure */ 0).then((require => {\n      resolve(__webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\"));\n    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);\n  }).then(({\n    default: _\n  }) => {\n    var element = document.createElement('div');\n    element.innerHTML = _.join(['Dell', 'Lee'], '-');\n    return element;\n  });\n}\n\ngetComponent().then(element => {\n  document.body.appendChild(element);\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyJmdW5jdGlvbiBnZXRDb21wb25lbnQoKSB7ICAgLy8gd2VicGFja+eahOaWueazle+8jOW8guatpeWKoOi9veaooeWdl1xyXG4gICAgLy8gbG9kYXNo6KKr5Yqg6L295bm25aOw5piO5Li6J18nXHJcbiAgICByZXR1cm4gaW1wb3J0KCdsb2Rhc2gnKS50aGVuKCh7IGRlZmF1bHQ6IF8gfSkgPT4geyAgXHJcbiAgICAgICAgdmFyIGVsZW1lbnQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcclxuICAgICAgICBlbGVtZW50LmlubmVySFRNTCA9IF8uam9pbihbJ0RlbGwnLCAnTGVlJ10sICctJyk7XHJcbiAgICAgICAgcmV0dXJuIGVsZW1lbnQ7XHJcbiAgICB9KVxyXG59XHJcblxyXG5nZXRDb21wb25lbnQoKS50aGVuKGVsZW1lbnQgPT4ge1xyXG4gICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChlbGVtZW50KTtcclxufSlcclxuXHJcbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFBQTtBQUNBO0FBQ0E7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/index.js\n");
 
 /***/ })
 

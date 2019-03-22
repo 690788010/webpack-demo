@@ -9,7 +9,8 @@
                 useBuiltIns: 'usage'  // 根据业务代码来补充代码,会自动引入babel/polyfill
             }
         ]   
-    ]  
+    ],
+    plugins: ['dynamic-import-webpack']
     // presets polyfill 会产生全局污染，而transform不会
     // "plugins": [
     //     [
