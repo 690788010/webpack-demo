@@ -4,6 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
+        lodash: './src/lodash.js',
         main: './src/index.js'
     },
     module: {
@@ -59,6 +60,6 @@ module.exports = {
     output: {
         // publicPath: '/',       
         filename: '[name].js',  // name是通配符，表示entry中的key值
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, '../dist')
     }
 }
