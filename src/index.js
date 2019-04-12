@@ -1,6 +1,7 @@
 function getComponent() {   // webpack的方法，异步加载模块
     // lodash被加载并声明为'_'
-    return import('lodash').then(({ default: _ }) => {  
+    // 设置webpackChunkName需要@babel/plugin-syntax-dynamic-import插件
+    return import(/* webpackChunkName: "lodash" */ 'lodash').then(({ default: _ }) => {  
         var element = document.createElement('div');
         element.innerHTML = _.join(['Dell', 'Lee'], '-');
         return element;

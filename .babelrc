@@ -10,7 +10,7 @@
             }
         ]   
     ],
-    plugins: ['dynamic-import-webpack']
+    plugins: ["@babel/plugin-syntax-dynamic-import"]
     // presets polyfill 会产生全局污染，而transform不会
     // "plugins": [
     //     [

@@ -92,7 +92,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "58a0c20549638c0952c7";
+/******/ 	var hotCurrentHash = "5debeb72db4aefbc9a19";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -743,7 +743,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"vendors~lodash":"vendors~lodash"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -912,7 +912,7 @@
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("function getComponent() {\n  // webpack的方法，异步加载模块\n  // lodash被加载并声明为'_'\n  return new Promise(resolve => {\n    __webpack_require__.e(/*! require.ensure */ 0).then((require => {\n      resolve(__webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\"));\n    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);\n  }).then(({\n    default: _\n  }) => {\n    var element = document.createElement('div');\n    element.innerHTML = _.join(['Dell', 'Lee'], '-');\n    return element;\n  });\n}\n\ngetComponent().then(element => {\n  document.body.appendChild(element);\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyJmdW5jdGlvbiBnZXRDb21wb25lbnQoKSB7ICAgLy8gd2VicGFja+eahOaWueazle+8jOW8guatpeWKoOi9veaooeWdl1xyXG4gICAgLy8gbG9kYXNo6KKr5Yqg6L295bm25aOw5piO5Li6J18nXHJcbiAgICByZXR1cm4gaW1wb3J0KCdsb2Rhc2gnKS50aGVuKCh7IGRlZmF1bHQ6IF8gfSkgPT4geyAgXHJcbiAgICAgICAgdmFyIGVsZW1lbnQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcclxuICAgICAgICBlbGVtZW50LmlubmVySFRNTCA9IF8uam9pbihbJ0RlbGwnLCAnTGVlJ10sICctJyk7XHJcbiAgICAgICAgcmV0dXJuIGVsZW1lbnQ7XHJcbiAgICB9KVxyXG59XHJcblxyXG5nZXRDb21wb25lbnQoKS50aGVuKGVsZW1lbnQgPT4ge1xyXG4gICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChlbGVtZW50KTtcclxufSlcclxuXHJcbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFBQTtBQUNBO0FBQ0E7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/index.js\n");
+eval("function getComponent() {\n  // webpack的方法，异步加载模块\n  // lodash被加载并声明为'_'\n  // 设置webpackChunkName需要@babel/plugin-syntax-dynamic-import插件\n  return __webpack_require__.e(/*! import() | lodash */ \"vendors~lodash\").then(__webpack_require__.t.bind(null, /*! lodash */ \"./node_modules/lodash/lodash.js\", 7)).then(({\n    default: _\n  }) => {\n    var element = document.createElement('div');\n    element.innerHTML = _.join(['Dell', 'Lee'], '-');\n    return element;\n  });\n}\n\ngetComponent().then(element => {\n  document.body.appendChild(element);\n}); // 代码分割，和webpack无关\n// webpack中实现代码分割，两种方式\n// 1.同步代码： 只需要在webpack.common.js中做optimization的配置即可\n// 2.异步代码(import)：异步代码，无需做任何配置，会自动进行代码分割，放置到新的文件中//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyJmdW5jdGlvbiBnZXRDb21wb25lbnQoKSB7ICAgLy8gd2VicGFja+eahOaWueazle+8jOW8guatpeWKoOi9veaooeWdl1xyXG4gICAgLy8gbG9kYXNo6KKr5Yqg6L295bm25aOw5piO5Li6J18nXHJcbiAgICAvLyDorr7nva53ZWJwYWNrQ2h1bmtOYW1l6ZyA6KaBQGJhYmVsL3BsdWdpbi1zeW50YXgtZHluYW1pYy1pbXBvcnTmj5Lku7ZcclxuICAgIHJldHVybiBpbXBvcnQoLyogd2VicGFja0NodW5rTmFtZTogXCJsb2Rhc2hcIiAqLyAnbG9kYXNoJykudGhlbigoeyBkZWZhdWx0OiBfIH0pID0+IHsgIFxyXG4gICAgICAgIHZhciBlbGVtZW50ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XHJcbiAgICAgICAgZWxlbWVudC5pbm5lckhUTUwgPSBfLmpvaW4oWydEZWxsJywgJ0xlZSddLCAnLScpO1xyXG4gICAgICAgIHJldHVybiBlbGVtZW50O1xyXG4gICAgfSlcclxufVxyXG5cclxuZ2V0Q29tcG9uZW50KCkudGhlbihlbGVtZW50ID0+IHtcclxuICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoZWxlbWVudCk7XHJcbn0pXHJcblxyXG4vLyDku6PnoIHliIblibLvvIzlkox3ZWJwYWNr5peg5YWzXHJcbi8vIHdlYnBhY2vkuK3lrp7njrDku6PnoIHliIblibLvvIzkuKTnp43mlrnlvI9cclxuLy8gMS7lkIzmraXku6PnoIHvvJog5Y+q6ZyA6KaB5Zyod2VicGFjay5jb21tb24uanPkuK3lgZpvcHRpbWl6YXRpb27nmoTphY3nva7ljbPlj69cclxuLy8gMi7lvILmraXku6PnoIEoaW1wb3J0Ke+8muW8guatpeS7o+egge+8jOaXoOmcgOWBmuS7u+S9lemFjee9ru+8jOS8muiHquWKqOi/m+ihjOS7o+eggeWIhuWJsu+8jOaUvue9ruWIsOaWsOeahOaWh+S7tuS4rVxyXG5cclxuIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUFBO0FBQ0E7QUFDQTtBQUNBLG9LQUFBO0FBQUE7QUFBQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUdBO0FBQ0E7QUFDQSIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/index.js\n");
 
 /***/ })
 
